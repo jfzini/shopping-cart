@@ -18,12 +18,12 @@ describe('Teste a função fetchProductsList', () => {
     expect(fetch).toHaveBeenCalledWith('https://api.mercadolibre.com/sites/MLB/search?q=computador');
   });
 
-  it(`retorno da função fetchProductsList com o argumento \'computador\' é uma estrutura de dados igual ao objeto 'computadorSearch'`, async () => {
+  it(`retorno da função fetchProductsList com o argumento 'computador' é uma estrutura de dados igual ao objeto 'computadorSearch'`, async () => {
     const actual = await fetchProductsList('computador');
     expect(actual).toEqual(computadorSearch);
   });
 
   it(`lança o erro 'Termo de busca não informado' quando chamado sem argumentos`, async () => {
-    await expect(fetchProductsList()).rejects.toThrowError('Termo de busca não informado');
+    await expect(() => fetchProductsList()).rejects.toThrowError('Termo de busca não informado');
   });  
 });
