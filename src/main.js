@@ -3,7 +3,8 @@ import './style.css';
 import { fetchProduct, fetchProductsList } from './helpers/fetchFunctions';
 import { createProductElement } from './helpers/shopFunctions';
 
+const productContainer = document.querySelector('.products');
 const productsList = await fetchProductsList('computador');
-productsList.forEach(async (product) => await createProductElement(product));
+productsList.forEach((product) => productContainer.appendChild(createProductElement(product)));
 
 document.querySelector('.cep-button').addEventListener('click', searchCep);
