@@ -18,7 +18,8 @@ const createAllProducts = async (query) => {
     await createEachProduct(query);
     loadingP.className = 'hidden';
   } catch (error) {
-    loadingP.innerHTML = 'Erro ao carregar API';
+    loadingP.className = 'error';
+    loadingP.innerHTML = 'Algum erro ocorreu, recarregue a página e tente novamente';
   }
   return null;
 };
