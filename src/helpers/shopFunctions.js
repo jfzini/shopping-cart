@@ -76,6 +76,7 @@ const removeCartProduct = (li, id) => {
  */
 export const createCartProductElement = ({ id, title, price, pictures }) => {
   const li = document.createElement('li');
+  const fixedPrice = Number(price).toFixed(2);
   li.className = 'cart__product';
   const imgContainer = createCustomElement('div', 'cart__product__image-container');
 
@@ -90,7 +91,7 @@ export const createCartProductElement = ({ id, title, price, pictures }) => {
   const infoContainer = createCustomElement('div', 'cart__product__info-container');
   infoContainer.appendChild(createCustomElement('span', 'product__title', title));
   const priceElement = createCustomElement('span', 'product__price', 'R$ ');
-  priceElement.appendChild(createCustomElement('span', 'product__price__value', price));
+  priceElement.appendChild(createCustomElement('span', 'product__price__value', fixedPrice));
   infoContainer.appendChild(priceElement);
 
   li.appendChild(infoContainer);
@@ -117,6 +118,7 @@ export const createCartProductElement = ({ id, title, price, pictures }) => {
  */
 export const createProductElement = ({ id, title, thumbnail, price }) => {
   const section = document.createElement('section');
+  const fixedPrice = price.toFixed(2);
   section.className = 'product';
 
   section.appendChild(createCustomElement('span', 'product__id', id));
@@ -128,7 +130,7 @@ export const createProductElement = ({ id, title, thumbnail, price }) => {
   section.appendChild(createCustomElement('span', 'product__title', title));
 
   const priceElement = createCustomElement('span', 'product__price', 'R$ ');
-  priceElement.appendChild(createCustomElement('span', 'product__price__value', price));
+  priceElement.appendChild(createCustomElement('span', 'product__price__value', fixedPrice));
   section.appendChild(priceElement);
 
   const cartButton = createCustomElement(
