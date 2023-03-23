@@ -40,12 +40,27 @@ export const getIdFromProduct = (product) => (
   product.querySelector('span.product__id').innerText
 );
 
+const subtractTotal = (li) => {
+  const subtrahendElem = li.querySelector('.product__price__value');
+  const subtrahend = Number(subtrahendElem.innerHTML).toFixed(2);
+  const subTotalElem = document.querySelector('.total-price');
+  const subTotal = Number(subTotalElem.innerHTML);
+  subTotalElem.innerHTML = (subTotal - subtrahend).toFixed(2);
+};
+
+export const addTotal = (section, add) => {
+  const subTotalElem = document.querySelector('.total-price');
+  const subTotal = Number(subTotalElem.innerHTML);
+  subTotalElem.innerHTML = (subTotal + add).toFixed(2);
+};
+
 /**
  * Função que remove o produto do carrinho.
  * @param {Element} li - Elemento do produto a ser removido do carrinho.
  * @param {string} id - ID do produto a ser removido do carrinho.
  */
 const removeCartProduct = (li, id) => {
+  subtractTotal(li);
   li.remove();
   removeCartID(id);
 };

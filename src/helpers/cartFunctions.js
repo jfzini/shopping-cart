@@ -7,6 +7,19 @@ export const getSavedCartIDs = () => {
   return cartProducts ? JSON.parse(cartProducts) : [];
 };
 
+const saveSubTotal = () => {
+  const subTotalElem = document.querySelector('.total-price');
+  const subTotal = subTotalElem.innerHTML;
+  localStorage.setItem('subTotal', subTotal);
+};
+
+export const getSavedSubTotal = () => {
+  const SavedSubTotal = localStorage.getItem('subTotal');
+  const subTotalElem = document.querySelector('.total-price');
+  const subTotal = SavedSubTotal || 0;
+  subTotalElem.innerHTML = subTotal;
+};
+
 /**
  * Função que adiciona um product ao carrinho.
  * @param {string} id - ID do product a ser adicionado.
@@ -17,6 +30,7 @@ export const saveCartID = (id) => {
   const cartProducts = getSavedCartIDs();
   const newCartProducts = [...cartProducts, id];
   localStorage.setItem('cartProducts', JSON.stringify(newCartProducts));
+  saveSubTotal();
 };
 
 /**
@@ -30,4 +44,5 @@ export const removeCartID = (id) => {
   const indexProduct = cartProducts.indexOf(id);
   cartProducts.splice(indexProduct, 1);
   localStorage.setItem('cartProducts', JSON.stringify(cartProducts));
+  saveSubTotal();
 };

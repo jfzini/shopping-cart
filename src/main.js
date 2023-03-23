@@ -5,8 +5,9 @@ import {
   createProductElement,
   createCustomElement,
   createCartProductElement,
+  addTotal,
 } from './helpers/shopFunctions';
-import { saveCartID, getSavedCartIDs } from './helpers/cartFunctions';
+import { saveCartID, getSavedCartIDs, getSavedSubTotal } from './helpers/cartFunctions';
 
 // ==============UPPER SCOPE DECLARATIONS==============
 const productContainer = document.querySelector('.products');
@@ -35,9 +36,11 @@ const createAllProducts = async (query) => {
 const addToCart = async (e) => {
   const ID = e.target.parentElement.firstElementChild.innerHTML;
   const productData = await fetchProduct(ID);
-  const li = createCartProductElement(productData);
+  const section = createCartProductElement(productData);
+  const addNumber = productData.price;
+  addTotal(section, addNumber);
   saveCartID(ID);
-  cartProducts.appendChild(li);
+  cartProducts.appendChild(section);
 };
 
 // get the ID's saved on the local storage and restore cart in the same order using Promise.all
@@ -49,11 +52,11 @@ const restoreCart = async () => {
     const li = createCartProductElement(product);
     cartProducts.appendChild(li);
   });
+  getSavedSubTotal();
 };
 
 // EVENT LISTENERS
 document.querySelector('.cep-button').addEventListener('click', searchCep);
-
 // ==============ONLOAD FUNCTIONS==============
 window.onload = async () => {
   await createAllProducts('computador'); // Load the page with a set of computers fetched from the API
