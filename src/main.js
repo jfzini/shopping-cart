@@ -9,11 +9,15 @@ import {
 } from './helpers/shopFunctions';
 import { saveCartID, getSavedCartIDs, getSavedSubTotal } from './helpers/cartFunctions';
 
-// ==============UPPER SCOPE DECLARATIONS==============
+// ============================UPPER SCOPE DECLARATIONS============================
 const productContainer = document.querySelector('.products');
 const cartProducts = document.querySelector('.cart__products');
+const CEPInput = document.querySelector('.cep-input');
+const CEPBtn = document.querySelector('.cep-button');
+const srcInpt = document.querySelector('.search-input');
+const srcBtn = document.querySelector('.search-button');
 
-// ==============FUNCTIONS==============
+// ============================FUNCTIONS============================
 const createEachProduct = async (query) => {
   const productsList = await fetchProductsList(query);
   productsList
@@ -43,6 +47,11 @@ const addToCart = async (e) => {
   cartProducts.appendChild(section);
 };
 
+const addToCartListener = () => {
+  const addToCartBtnsArr = document.querySelectorAll('.product__add');
+  addToCartBtnsArr.forEach((btn) => btn.addEventListener('click', addToCart));
+};
+
 // get the ID's saved on the local storage and restore cart in the same order using Promise.all
 const restoreCart = async () => {
   const storedArr = getSavedCartIDs();
@@ -55,15 +64,21 @@ const restoreCart = async () => {
   getSavedSubTotal();
 };
 
-// EVENT LISTENERS
-document.querySelector('.cep-button').addEventListener('click', searchCep);
-// ==============ONLOAD FUNCTIONS==============
+const searchProduct = async () => {
+  productContainer.innerHTML = '';
+  await createAllProducts(srcInpt.value);
+  addToCartListener();
+};
+
+// ============================SINGLE EVENT LISTENERS============================
+CEPBtn.addEventListener('click', searchCep);
+CEPInput.addEventListener('keypress', (e) => (e.key === 'Enter' ? searchCep() : null));
+srcBtn.addEventListener('click', async () => searchProduct());
+srcInpt.addEventListener('keypress', (e) => (e.key === 'Enter' ? searchProduct() : null));
+
+// ============================ONLOAD FUNCTIONS============================
 window.onload = async () => {
   await createAllProducts('computador'); // Load the page with a set of computers fetched from the API
-  const addToCartBtnsArr = document.querySelectorAll('.product__add');
-
-  // add an eventListener for each button after they're created by the createAllProducts function
-  addToCartBtnsArr.forEach((btn) => btn.addEventListener('click', addToCart));
-
+  addToCartListener();
   restoreCart();
 };
