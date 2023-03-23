@@ -38,7 +38,7 @@ const addToCart = async (e) => {
   const productData = await fetchProduct(ID);
   const section = createCartProductElement(productData);
   const addNumber = productData.price;
-  addTotal(section, addNumber);
+  addTotal(addNumber);
   saveCartID(ID);
   cartProducts.appendChild(section);
 };

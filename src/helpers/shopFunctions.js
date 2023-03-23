@@ -48,7 +48,7 @@ const subtractTotal = (li) => {
   subTotalElem.innerHTML = (subTotal - subtrahend).toFixed(2);
 };
 
-export const addTotal = (section, add) => {
+export const addTotal = (add) => {
   const subTotalElem = document.querySelector('.total-price');
   const subTotal = Number(subTotalElem.innerHTML);
   subTotalElem.innerHTML = (subTotal + add).toFixed(2);
