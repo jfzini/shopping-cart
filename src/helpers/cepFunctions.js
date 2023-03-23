@@ -3,6 +3,9 @@ export const getAddress = async (CEP) => {
   const brasilAPI = fetch(`https://brasilapi.com.br/api/cep/v2/${CEP}`);
   const returned = await Promise.any([awesomeAPI, brasilAPI]);
   const data = await returned.json();
+  if (data.type === 'service_error' || data.code === 'invalid') {
+    throw new Error('CEP não encontrado');
+  }
   return data;
 };
 
