@@ -17,7 +17,7 @@ const CEPBtn = document.querySelector('.cep-button');
 const srcInpt = document.querySelector('.search-input');
 const srcBtn = document.querySelector('.search-button');
 
-// ============================FUNCTIONS============================
+// =============================FUNCTIONS=============================
 const createEachProduct = async (query) => {
   const productsList = await fetchProductsList(query);
   productsList
@@ -70,13 +70,13 @@ const searchProduct = async () => {
   addToCartListener();
 };
 
-// ============================SINGLE EVENT LISTENERS============================
+// =============================SINGLE EVENT LISTENERS=============================
 CEPBtn.addEventListener('click', searchCep);
 CEPInput.addEventListener('keypress', (e) => (e.key === 'Enter' ? searchCep() : null));
 srcBtn.addEventListener('click', async () => searchProduct());
 srcInpt.addEventListener('keypress', (e) => (e.key === 'Enter' ? searchProduct() : null));
 
-// ============================ONLOAD FUNCTIONS============================
+// =============================ONLOAD FUNCTIONS=============================
 window.onload = async () => {
   await createAllProducts('computador'); // Load the page with a set of computers fetched from the API
   addToCartListener();
