@@ -5,7 +5,8 @@
     "no-console": "off",
     "prefer-arrow-callback": "off",
     "func-names": "off",
-    "no-unused-vars": "warn"
+    "no-unused-vars": "warn",
+    "max-len": ["error", { "code": 110 }]
   },
   "overrides": [
     {

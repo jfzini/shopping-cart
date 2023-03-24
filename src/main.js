@@ -14,30 +14,42 @@ const productContainer = document.querySelector('.products');
 const cartProducts = document.querySelector('.cart__products');
 const CEPInput = document.querySelector('.cep-input');
 const CEPBtn = document.querySelector('.cep-button');
-const srcInpt = document.querySelector('.search-input');
-const srcBtn = document.querySelector('.search-button');
+const searchInput = document.querySelector('.search-input');
+const searchBtn = document.querySelector('.search-button');
 
 // =============================FUNCTIONS=============================
+/**
+ * Create each product element returned from the API when given a string argument. Works together with createAllProducts function.
+ * @param {string} query - search query. This will be the endpoint of the API.
+ */
 const createEachProduct = async (query) => {
   const productsList = await fetchProductsList(query);
   productsList
     .forEach((product) => productContainer.appendChild(createProductElement(product)));
 };
 
+/**
+ * Create all products elements returned from the API when given a string argument.
+ * @param {string} query - search query. This will be the endpoint of the API.
+ */
 const createAllProducts = async (query) => {
-  const loadingP = createCustomElement('p', 'loading', 'carregando...');
+  const loadingParagraph = createCustomElement('p', 'loading', 'carregando...');
   try {
-    productContainer.appendChild(loadingP);
+    productContainer.appendChild(loadingParagraph);
     await createEachProduct(query);
-    loadingP.className = 'hidden';
+    loadingParagraph.className = 'hidden';
   } catch (error) {
-    loadingP.className = 'error';
-    loadingP.innerHTML = 'Algum erro ocorreu, recarregue a página e tente novamente';
+    loadingParagraph.className = 'error';
+    loadingParagraph.innerHTML = 'Algum erro ocorreu, recarregue a página e tente novamente';
   }
 };
 
-// add selected elements to cart and save its IDs on local storage
+/**
+ * Add selected elements to cart and save its IDs on local storage
+ * @param {object} e - pointer event.
+ */
 const addToCart = async (e) => {
+  console.log(typeof e);
   const ID = e.target.parentElement.firstElementChild.innerHTML;
   const productData = await fetchProduct(ID);
   const section = createCartProductElement(productData);
@@ -47,12 +59,17 @@ const addToCart = async (e) => {
   cartProducts.appendChild(section);
 };
 
+/**
+ * Add an event listener for all 'add to cart' buttons. Should be called after such buttons are created.
+ */
 const addToCartListener = () => {
   const addToCartBtnsArr = document.querySelectorAll('.product__add');
   addToCartBtnsArr.forEach((btn) => btn.addEventListener('click', addToCart));
 };
 
-// get the ID's saved on the local storage and restore cart in the same order using Promise.all
+/**
+ * Get the ID's saved on the local storage and restore cart in the same order using Promise.all. Also restores the subtotal value.
+ */
 const restoreCart = async () => {
   const storedArr = getSavedCartIDs();
   const promises = storedArr.map((ID) => fetchProduct(ID));
@@ -64,17 +81,20 @@ const restoreCart = async () => {
   getSavedSubTotal();
 };
 
+/**
+ * Search for a new product that is passed in the searchInput by the user, replacing the previous ones.
+ */
 const searchProduct = async () => {
   productContainer.innerHTML = '';
-  await createAllProducts(srcInpt.value);
+  await createAllProducts(searchInput.value);
   addToCartListener();
 };
 
 // =============================SINGLE EVENT LISTENERS=============================
 CEPBtn.addEventListener('click', searchCep);
 CEPInput.addEventListener('keypress', (e) => (e.key === 'Enter' ? searchCep() : null));
-srcBtn.addEventListener('click', async () => searchProduct());
-srcInpt.addEventListener('keypress', (e) => (e.key === 'Enter' ? searchProduct() : null));
+searchBtn.addEventListener('click', async () => searchProduct());
+searchInput.addEventListener('keypress', (e) => (e.key === 'Enter' ? searchProduct() : null));
 
 // =============================ONLOAD FUNCTIONS=============================
 window.onload = async () => {
