@@ -10,6 +10,7 @@ import {
 import { saveCartID, getSavedCartIDs, getSavedSubTotal } from './helpers/cartFunctions';
 
 // ============================UPPER SCOPE DECLARATIONS============================
+
 const productContainer = document.querySelector('.products');
 const cartProducts = document.querySelector('.cart__products');
 const CEPInput = document.querySelector('.cep-input');
@@ -18,8 +19,10 @@ const searchInput = document.querySelector('.search-input');
 const searchBtn = document.querySelector('.search-button');
 
 // =============================FUNCTIONS=============================
+
 /**
- * Create each product element returned from the API when given a string argument. Works together with createAllProducts function.
+ * Create each product element returned from the API when given a string argument. Works together 
+ * with createAllProducts function.
  * @param {string} query - search query. This will be the endpoint of the API.
  */
 const createEachProduct = async (query) => {
@@ -60,7 +63,8 @@ const addToCart = async (e) => {
 };
 
 /**
- * Add an event listener for all 'add to cart' buttons. Should be called after such buttons are created.
+ * Add an event listener for all 'add to cart' buttons. Should be called after such
+ * buttons are created.
  */
 const addToCartListener = () => {
   const addToCartBtnsArr = document.querySelectorAll('.product__add');
@@ -68,7 +72,8 @@ const addToCartListener = () => {
 };
 
 /**
- * Get the ID's saved on the local storage and restore cart in the same order using Promise.all. Also restores the subtotal value.
+ * Get the ID's saved on the local storage and restore cart in the same order using Promise.all.
+ * Also restores the subtotal value.
  */
 const restoreCart = async () => {
   const storedArr = getSavedCartIDs();
@@ -82,7 +87,7 @@ const restoreCart = async () => {
 };
 
 /**
- * Search for a new product that is passed in the searchInput by the user, replacing the previous ones.
+ * Search for a new product that is passed in the searchInput by the user, replacing previous ones.
  */
 const searchProduct = async () => {
   productContainer.innerHTML = '';
@@ -91,14 +96,16 @@ const searchProduct = async () => {
 };
 
 // =============================SINGLE EVENT LISTENERS=============================
+
 CEPBtn.addEventListener('click', searchCep);
 CEPInput.addEventListener('keypress', (e) => (e.key === 'Enter' ? searchCep() : null));
 searchBtn.addEventListener('click', async () => searchProduct());
 searchInput.addEventListener('keypress', (e) => (e.key === 'Enter' ? searchProduct() : null));
 
 // =============================ONLOAD FUNCTIONS=============================
+
 window.onload = async () => {
-  await createAllProducts('computador'); // Load the page with a set of computers fetched from the API
+  await createAllProducts('computador'); // Load page with a set of computers fetched from the API
   addToCartListener();
   restoreCart();
 };
