@@ -52,7 +52,6 @@ const createAllProducts = async (query) => {
  * @param {object} e - pointer event.
  */
 const addToCart = async (e) => {
-  console.log(typeof e);
   const ID = e.target.parentElement.firstElementChild.innerHTML;
   const productData = await fetchProduct(ID);
   const section = createCartProductElement(productData);
