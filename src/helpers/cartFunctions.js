@@ -7,13 +7,19 @@ export const getSavedCartIDs = () => {
   return cartProducts ? JSON.parse(cartProducts) : [];
 };
 
+/**
+ * Saves subtotal amount to local storage.
+ */
 const saveSubTotal = () => {
   const subTotalElem = document.querySelector('.total-price');
   const subTotal = subTotalElem.innerHTML;
   localStorage.setItem('subTotal', subTotal);
 };
 
-export const getSavedSubTotal = () => {
+/**
+  * Restores subtotal amount from local storage and displays it on the respective element.
+ */
+export const restoreSubtotal = () => {
   const SavedSubTotal = localStorage.getItem('subTotal');
   const subTotalElem = document.querySelector('.total-price');
   const subTotal = SavedSubTotal || 0;

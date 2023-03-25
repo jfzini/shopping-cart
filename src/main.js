@@ -7,7 +7,7 @@ import {
   createCartProductElement,
   addTotal,
 } from './helpers/shopFunctions';
-import { saveCartID, getSavedCartIDs, getSavedSubTotal } from './helpers/cartFunctions';
+import { saveCartID, getSavedCartIDs, restoreSubtotal } from './helpers/cartFunctions';
 
 // ============================UPPER SCOPE DECLARATIONS============================
 
@@ -15,13 +15,13 @@ const productContainer = document.querySelector('.products');
 const cartProducts = document.querySelector('.cart__products');
 const CEPInput = document.querySelector('.cep-input');
 const CEPBtn = document.querySelector('.cep-button');
-const searchInput = document.querySelector('.search-input');
-const searchBtn = document.querySelector('.search-button');
+const srchInp = document.querySelector('.search-input');
+const srchBtn = document.querySelector('.search-button');
 
 // =============================FUNCTIONS=============================
 
 /**
- * Create each product element returned from the API when given a string argument. Works together 
+ * Create each product element returned from the API when given a string argument. Works together
  * with createAllProducts function.
  * @param {string} query - search query. This will be the endpoint of the API.
  */
@@ -36,14 +36,14 @@ const createEachProduct = async (query) => {
  * @param {string} query - search query. This will be the endpoint of the API.
  */
 const createAllProducts = async (query) => {
-  const loadingParagraph = createCustomElement('p', 'loading', 'carregando...');
+  const loadingPrgph = createCustomElement('p', 'loading', 'carregando...');
   try {
-    productContainer.appendChild(loadingParagraph);
+    productContainer.appendChild(loadingPrgph);
     await createEachProduct(query);
-    loadingParagraph.className = 'hidden';
+    loadingPrgph.className = 'hidden';
   } catch (error) {
-    loadingParagraph.className = 'error';
-    loadingParagraph.innerHTML = 'Algum erro ocorreu, recarregue a página e tente novamente';
+    loadingPrgph.className = 'error';
+    loadingPrgph.innerHTML = 'Algum erro ocorreu, recarregue a página e tente novamente';
   }
 };
 
@@ -53,10 +53,9 @@ const createAllProducts = async (query) => {
  */
 const addToCart = async (e) => {
   const ID = e.target.parentElement.firstElementChild.innerHTML;
-  const productData = await fetchProduct(ID);
-  const section = createCartProductElement(productData);
-  const addNumber = productData.price;
-  addTotal(addNumber);
+  const product = await fetchProduct(ID);
+  const section = createCartProductElement(product);
+  addTotal(product);
   saveCartID(ID);
   cartProducts.appendChild(section);
 };
@@ -82,7 +81,7 @@ const restoreCart = async () => {
     const li = createCartProductElement(product);
     cartProducts.appendChild(li);
   });
-  getSavedSubTotal();
+  restoreSubtotal();
 };
 
 /**
@@ -90,7 +89,7 @@ const restoreCart = async () => {
  */
 const searchProduct = async () => {
   productContainer.innerHTML = '';
-  await createAllProducts(searchInput.value);
+  await createAllProducts(srchInp.value);
   addToCartListener();
 };
 
@@ -98,8 +97,8 @@ const searchProduct = async () => {
 
 CEPBtn.addEventListener('click', searchCep);
 CEPInput.addEventListener('keypress', (e) => (e.key === 'Enter' ? searchCep() : null));
-searchBtn.addEventListener('click', async () => searchProduct());
-searchInput.addEventListener('keypress', (e) => (e.key === 'Enter' ? searchProduct() : null));
+srchBtn.addEventListener('click', async () => searchProduct());
+srchInp.addEventListener('keypress', (e) => (e.key === 'Enter' ? searchProduct() : null));
 
 // =============================ONLOAD FUNCTIONS=============================
 

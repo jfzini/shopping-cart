@@ -40,18 +40,27 @@ export const getIdFromProduct = (product) => (
   product.querySelector('span.product__id').innerText
 );
 
-const subtractTotal = (li) => {
-  const subtrahendElem = li.querySelector('.product__price__value');
+/**
+ * Subtracts a respective product price of the subtotal display element
+ * @param {Element} add - Product element which price should be subtracted.
+ */
+const subtractTotal = (element) => {
+  const subtrahendElem = element.querySelector('.product__price__value');
   const subtrahend = Number(subtrahendElem.innerHTML).toFixed(2);
   const subTotalElem = document.querySelector('.total-price');
   const subTotal = Number(subTotalElem.innerHTML);
   subTotalElem.innerHTML = (subTotal - subtrahend).toFixed(2);
 };
 
-export const addTotal = (add) => {
+/**
+ * Adds a respective product price to the subtotal display element
+ * @param {object} product - Product object which price should be added.
+ */
+export const addTotal = (product) => {
+  const addNumber = product.price;
   const subTotalElem = document.querySelector('.total-price');
   const subTotal = Number(subTotalElem.innerHTML);
-  subTotalElem.innerHTML = (subTotal + add).toFixed(2);
+  subTotalElem.innerHTML = (subTotal + addNumber).toFixed(2);
 };
 
 /**
@@ -90,9 +99,9 @@ export const createCartProductElement = ({ id, title, price, pictures }) => {
 
   const infoContainer = createCustomElement('div', 'cart__product__info-container');
   infoContainer.appendChild(createCustomElement('span', 'product__title', title));
-  const priceElement = createCustomElement('span', 'product__price', 'R$ ');
-  priceElement.appendChild(createCustomElement('span', 'product__price__value', fixedPrice));
-  infoContainer.appendChild(priceElement);
+  const priceElem = createCustomElement('span', 'product__price', 'R$ ');
+  priceElem.appendChild(createCustomElement('span', 'product__price__value', fixedPrice));
+  infoContainer.appendChild(priceElem);
 
   li.appendChild(infoContainer);
 
@@ -129,9 +138,9 @@ export const createProductElement = ({ id, title, thumbnail, price }) => {
 
   section.appendChild(createCustomElement('span', 'product__title', title));
 
-  const priceElement = createCustomElement('span', 'product__price', 'R$ ');
-  priceElement.appendChild(createCustomElement('span', 'product__price__value', fixedPrice));
-  section.appendChild(priceElement);
+  const priceElem = createCustomElement('span', 'product__price', 'R$ ');
+  priceElem.appendChild(createCustomElement('span', 'product__price__value', fixedPrice));
+  section.appendChild(priceElem);
 
   const cartButton = createCustomElement(
     'button',
