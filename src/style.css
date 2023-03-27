@@ -106,7 +106,7 @@ body {
   font-size: 12px;
   margin-top: 8px;
   overflow: hidden;
-  line-height: 25px;
+  line-height: 15px;
   text-overflow: ellipsis;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
