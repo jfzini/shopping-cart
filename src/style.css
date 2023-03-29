@@ -330,6 +330,12 @@ body {
   margin: 10px auto;
 }
 
+.loading-img {
+  height: 100px;
+  display: block;
+  animation: loading-spin infinite .6s linear;
+}
+
 .hidden {
   display: none;
 }
@@ -351,6 +357,15 @@ body {
 ::-webkit-scrollbar-track {
   background: rgb(214, 214, 214);
   border: 3px solid white;
+}
+
+@keyframes loading-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media screen and ( max-width : 1400px ) {

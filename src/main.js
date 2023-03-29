@@ -37,10 +37,18 @@ const createEachProduct = async (query) => {
  */
 const createAllProducts = async (query) => {
   const loadingPrgph = createCustomElement('p', 'loading', 'carregando...');
+  const loadingImg = document.createElement('img');
+  const genericDiv = document.createElement('div');
+  loadingImg.src = 'https://static.thenounproject.com/png/3095076-200.png';
+  loadingImg.className = 'loading-img';
+  genericDiv.appendChild(loadingImg);
+  genericDiv.appendChild(loadingPrgph);
+
   try {
-    productContainer.appendChild(loadingPrgph);
+    productContainer.appendChild(genericDiv);
     await createEachProduct(query);
     loadingPrgph.className = 'hidden';
+    loadingImg.className = 'hidden';
   } catch (error) {
     loadingPrgph.className = 'error';
     loadingPrgph.innerHTML = 'Algum erro ocorreu, recarregue a página e tente novamente';
